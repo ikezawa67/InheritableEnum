@@ -18,16 +18,16 @@ class Dog(Flag):
     BassetHound = auto()  # 2
 
 
+# 別の列挙型と一緒に継承する予定がある場合は、
+# plan_to_inheritに最も大きい値を使用している列挙型を与えることで、
+# auto()の値が続きの値から置き換わる
 class Cat(Flag, plan_to_inherit=Dog):
-    # 別の列挙型と一緒に継承する予定がある場合は、
-    # plan_to_inheritに最も大きい値を使用している列挙型を与えることで、
-    # auto()の値が続きの値から置き換わる
     Siamese = auto()  # 4
     Persian = auto()  # 8
 
 
-Owl = Flag("Owl", {name: auto() for name in ["HornedOwl"]}, plan_to_inherit=Cat)
 # 動的に宣言することも可能
+Owl = Flag("Owl", {name: auto() for name in ["HornedOwl"]}, plan_to_inherit=Cat)
 
 
 @unique
@@ -36,8 +36,8 @@ class Pet(Dog, Cat, Owl):
     Cow = auto()  # 32
 
 
-pet = Dog.Beagle | Cat.Persian  # <Pet.Persian|Beagle: 9>
 # 異なる列挙型でビット演算を行った場合は適切な列挙型に置き換えられる
+pet = Dog.Beagle | Cat.Persian  # <Pet.Persian|Beagle: 9>
 print(bool(pet & Pet.Siamese))  # False
 print(bool(pet & Dog.Beagle))  # True
 
@@ -50,13 +50,13 @@ class Rabbit(Flag):
     FrenchLop = 128
 
 
+# デコレーターにuniqueを使用しないためBeagleとJapaneseWhiteが同じ値だが宣言可能
 class Animal(Pet, Rabbit):
-    # デコレーターにuniqueを使用しないためBeagleとJapaneseWhiteが同じ値だが宣言可能
     pass
 
 
-animal = Animal.JapaneseWhite | Pet.Beagle  # <Dog.Beagle: 1>
 # 1 | 1 となってしまい名前が有効なBeagleが変数に返る
+animal = Animal.JapaneseWhite | Pet.Beagle  # <Dog.Beagle: 1>
 animal |= Rabbit.FrenchLop  # <Animal.FrenchLop|Beagle: 129>
 print(bool(animal & Animal.FrenchLop))  # true
 ```
