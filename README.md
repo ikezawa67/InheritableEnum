@@ -1,0 +1,2 @@
+# InheritableEnum
+PythonのEnumを継承し使用することを可能にしたモジュール
