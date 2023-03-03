@@ -1,5 +1,6 @@
 # InheritableEnum
 PythonのEnumを継承し使用することを可能にしたモジュール
+
 以下の列挙型が使用できる
 * Enum
 * IntEnum
